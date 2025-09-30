@@ -1,0 +1,16 @@
+\begin{algorithm}[H]
+    \caption{K-NN-SEARCH \cite{Gionis-Indyk-Motwani-1999}}
+    \label{alg:lsh-2}
+    \begin{algorithmic}[1]
+        \Require $l$ hash tables $T$, query point $q$, number of nearest neighbors $k$
+        \Ensure up to $k$ approximate nearest neighbors of $q$
+        
+        \State $S \gets \emptyset$ \Comment{candidate set}
+        
+        \For{$i \gets 1 \dots l$}
+            \State $S \gets S \cup \{$points in bucket $g_i(q)$ of hash table $T_i\}$
+        \EndFor
+        
+        \State \Return up to $k$ nearest neighbors of $q$ in $S$
+    \end{algorithmic}
+\end{algorithm}

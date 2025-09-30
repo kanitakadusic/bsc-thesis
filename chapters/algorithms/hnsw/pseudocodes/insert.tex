@@ -1,0 +1,38 @@
+\begin{algorithm}[H]
+    \caption{INSERT \cite{Malkov-Yashunin-2016}}
+    \label{alg:hnsw-1}
+    \begin{algorithmic}[1]
+        \Require multilayer graph $hnsw$, new element $q$, number of established connections $M$, maximum number of connections per element per layer $M_{\text{max}}$, size of dynamic candidate list $efConstruction$, normalization factor for level generation $m_L$
+        \Ensure updated $hnsw$ with element $q$ inserted
+        
+        \State $W \gets \emptyset$ \Comment{list of currently found nearest elements}
+        \State $ep \gets$ get entry point of $hnsw$
+        \State $L \gets$ level of $ep$ \Comment{top layer in $hnsw$}
+        \State $l \gets \lfloor -\ln(\text{$unif$}(0..1)) \cdot m_L \rfloor$ \Comment{level of new element}
+        
+        \For{$l_c \gets L \dots l+1$} 
+            \State $W \gets \text{SEARCH-LAYER}(q, ep, ef=1, l_c)$
+            \State $ep \gets$ get nearest element from $W$ to $q$
+        \EndFor
+        
+        \For{$l_c \gets \min(L,l) \dots 0$} 
+            \State $W \gets \text{SEARCH-LAYER}(q, ep, efConstruction, l_c)$
+            \State $neighbors \gets \text{SELECT-NEIGHBORS}(q, W, M, l_c)$ \Comment{Algorithm~\ref{alg:hnsw-3} or~\ref{alg:hnsw-4}}
+            \State add bidirectional connections from $neighbors$ to $q$ at layer $l_c$
+            
+            \For{each $e \in neighbors$} \Comment{shrink connections if necessary}
+                \State $eConn \gets$ $neighborhood(e)$ at layer $l_c$
+                \If{$|eConn| > M_{\text{max}}$} \Comment{shrink connections of $e$ (if $l_c = 0$, then $M_{\text{max}} = M_{\text{max0}}$)}
+                    \State $eNewConn \gets \text{SELECT-NEIGHBORS}(e, eConn, M_{\text{max}}, l_c)$ \Comment{Algorithm~\ref{alg:hnsw-3} or~\ref{alg:hnsw-4}}
+                    \State set $neighborhood(e)$ at layer $l_c$ to $eNewConn$
+                \EndIf
+            \EndFor
+            
+            \State $ep \gets W$
+        \EndFor
+        
+        \If{$l > L$}
+            \State set entry point of $hnsw$ to $q$
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}

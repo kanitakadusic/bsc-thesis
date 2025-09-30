@@ -1,0 +1,16 @@
+\begin{lstlisting}[
+    caption={Extraction of variables used in demonstration examples.},
+    label={lst:vars}
+]
+# Embedding dimension
+d = embeddings.shape[1]
+
+# Query vector: first sample in dataset
+query_vector = embeddings[0]
+
+# Number of nearest neighbors to retrieve
+k = 10
+
+print(f"Query label: {labels[0]}")
+print(f"Number of samples with label {labels[0]}: {np.sum(labels == labels[0])}")
+\end{lstlisting}

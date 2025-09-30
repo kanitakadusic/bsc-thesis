@@ -1,0 +1,16 @@
+\begin{algorithm}[H]
+    \caption{BUILD-INDEX \cite{Gionis-Indyk-Motwani-1999}}
+    \label{alg:lsh-1}
+    \begin{algorithmic}[1]
+        \Require points $P$, number of hash tables $l$
+        \Ensure hash tables $T$
+    
+        \For{$i \gets 1 \dots l$}
+            \State generate random hash function $g_i(\cdot)$ and initialize hash table $T_i$
+            
+            \For{each $p \in P$}
+                \State store point $p$ in bucket $g_i(p)$ of hash table $T_i$
+            \EndFor
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}

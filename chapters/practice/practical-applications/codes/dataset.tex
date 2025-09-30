@@ -1,0 +1,59 @@
+\begin{lstlisting}[
+    caption={Dataset preparation and embeddings extraction.},
+    label={lst:dataset}
+]
+import numpy as np
+import torch, torchvision
+import torchvision.transforms as transforms
+from torchvision.models import resnet18, ResNet18_Weights
+
+# Select device: GPU if available, otherwise CPU
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Define image transformations for ResNet input
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),   # ResNet standard input size
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],  # ImageNet mean
+        std=[0.229, 0.224, 0.225]    # ImageNet std
+    )
+])
+
+# Load CIFAR-10 dataset (subset for demonstration)
+dataset = torchvision.datasets.CIFAR10(
+    root='./data',
+    train=True,
+    download=True,
+    transform=transform
+)
+
+subset_size = 2000
+subset_indices = list(range(subset_size))
+subset = torch.utils.data.Subset(dataset, subset_indices)
+loader = torch.utils.data.DataLoader(subset, batch_size=64, shuffle=False)
+
+# Initialize pretrained ResNet18 model
+model = resnet18(weights=ResNet18_Weights.DEFAULT)
+model.fc = torch.nn.Identity()  # Remove classification layer to get embeddings
+model = model.to(device)
+model.eval()
+
+# Compute embeddings for each image in the subset
+embeddings = []
+labels = []
+
+with torch.no_grad():
+    for images, lbls in loader:
+        images = images.to(device)
+        emb = model(images)  # Extract feature vectors
+        embeddings.append(emb.cpu().numpy())
+        labels.extend(lbls.numpy())
+
+# Convert lists to NumPy arrays for downstream usage
+embeddings = np.vstack(embeddings)
+labels = np.array(labels)
+
+print("Embeddings shape:", embeddings.shape)
+print("Labels shape:", labels.shape)
+\end{lstlisting}

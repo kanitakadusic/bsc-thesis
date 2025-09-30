@@ -1,0 +1,33 @@
+\begin{lstlisting}[
+    caption={$k$-NN search using Weaviate HNSW approach.},
+    label={lst:weaviate-hnsw}
+]
+import weaviate.classes as wvc
+
+collection_name = "CIFAR10"
+
+# Drop the collection if it already exists to ensure a clean start
+if collection_name in client.collections.list_all():
+    client.collections.delete(collection_name)
+
+# Create a new collection with a single INT property 'index'
+# vector_config=self_provided() indicates that embeddings are precomputed
+collection = client.collections.create(
+    name=collection_name,
+    properties=[wvc.config.Property(name="index", data_type=wvc.config.DataType.INT)],
+    vector_config=wvc.config.Configure.Vectors.self_provided()
+)
+
+# Insert embeddings with their unique indices
+collection.data.insert_many([
+    wvc.data.DataObject(properties={"index": i}, vector=e)
+    for i, e in enumerate(embeddings)
+])
+
+# Perform top-k nearest neighbor search
+response = collection.query.near_vector(near_vector=query_vector, limit=k)
+
+top_ids = [res.properties["index"] for res in response.objects]
+print("Top-k ids:", top_ids)
+print("Top-k labels:", labels[top_ids].tolist())
+\end{lstlisting}

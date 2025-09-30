@@ -1,0 +1,12 @@
+\begin{lstlisting}[
+    caption={Connection to Milvus cluster from Google Colab.},
+    label={lst:milvus-connection}
+]
+from pymilvus import connections
+
+connections.connect(
+    alias="default",
+    uri="YOUR_URI",
+    token="YOUR_TOKEN"
+)
+\end{lstlisting}

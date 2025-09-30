@@ -1,0 +1,13 @@
+\chapter{Selected Algorithms}
+
+\input{chapters/algorithms/lsh/main}
+\input{chapters/algorithms/annoy/main}
+\input{chapters/algorithms/hnsw/main}
+
+\begin{center}
+    \vspace{0.5cm}
+    *\hspace{2cm}*\hspace{2cm}*
+    \vspace{0.3cm}
+\end{center}
+
+Three prominent approaches for approximate nearest neighbor search have been presented: Locality-Sensitive Hashing (LSH), Approximate Nearest Neighbors Oh Yeah (Annoy), and Hierarchical Navigable Small World (HNSW). LSH emphasizes theoretical guarantees and sublinear query time through hash-based partitioning of the data space. Annoy focuses on practical efficiency, using tree-based random projections and supporting memory-friendly, multi-process usage. HNSW combines hierarchical graph structures with scale separation, achieving strong empirical performance and logarithmic search complexity. Together, these methods exemplify three distinct paradigms for approximate nearest neighbor search: hash-based, tree-based, and graph-based.

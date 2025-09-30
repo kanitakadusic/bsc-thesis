@@ -1,0 +1,15 @@
+\begin{lstlisting}[
+    caption={?},
+    label={lst:faiss-exact}
+]
+import numpy as np
+import faiss
+
+index_exact = faiss.IndexFlatL2(d)
+index_exact.add(embeddings)
+
+distances_exact, indices_exact = index_exact.search(query_vector.reshape(1, -1), k)
+
+print("Top-k indices:", indices_exact[0].tolist())
+print("Top-k labels:", labels[indices_exact[0]].tolist())
+\end{lstlisting}

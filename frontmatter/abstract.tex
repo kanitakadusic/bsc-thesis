@@ -1,0 +1,14 @@
+\pagebreak
+\thispagestyle{plain}
+
+\section*{Abstract}
+
+This thesis addresses the problem of approximate nearest neighbor (ANN) search in high-dimensional spaces, a core challenge in machine learning, computer vision, and natural language processing. Owing to the \textit{curse of dimensionality}, exact search algorithms soon become inefficient, prompting the widespread adoption of approximate methods that provide faster retrieval while incurring a small reduction in accuracy.
+
+The theoretical part of the thesis examines three dominant paradigms for ANN search: hash-based, tree-based, and graph-based methods. The hash-based approach is represented through Locality-Sensitive Hashing (LSH), which leverages families of hash functions to group similar vectors into the same buckets. The tree-based approach is illustrated by the Annoy library, which constructs multiple trees using random projections, balancing query efficiency, memory consumption, and retrieval accuracy. Particular emphasis is placed on the graph-based Hierarchical Navigable Small World (HNSW) model, which achieves logarithmic search complexity by combining a hierarchical structure with the properties of navigable small-world networks.
+
+The practical part of the thesis focuses on examining vector management systems and tools. Milvus and Weaviate are presented as representative vector databases that support storage of embeddings, index construction, and similarity-based querying. FAISS, a standalone library providing high-performance ANN search methods, is introduced to illustrate algorithmic functionalities. Using embeddings generated from a selected dataset, the thesis demonstrates the process of importing embeddings, constructing indices, and performing search queries. In this way, the work connects theoretical concepts with practical implementation, providing an overview of the core algorithmic solutions and the software infrastructure enabling their application in real-world scenarios.
+
+\subparagraph{Keywords:}
+
+high-dimensional data, approximate nearest neighbor (ANN), Hierarchical Navigable Small World (HNSW), vector databases, similarity search

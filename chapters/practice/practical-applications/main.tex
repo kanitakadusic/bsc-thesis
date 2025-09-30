@@ -1,0 +1,63 @@
+\section{Practical Applications}
+
+This section demonstrates the practical applications of vector databases through experiments with FAISS, Milvus, and Weaviate. The aim is to illustrate how embeddings can be stored, indexed, and queried.
+
+Experiments were conducted using Google Colab to provide a consistent and accessible execution environment. FAISS, being a standalone library, was integrated directly into the Colab notebook without additional setup. For Milvus and Weaviate, cloud-based sandbox environments were employed. Each service required the creation of a cluster, followed by retrieval of the connection parameters necessary to interact with the respective database. Once the environments were established, all subsequent operations, including collection creation, embeddings insertion, indexing, and nearest neighbors search, were executed through the code examples presented in this section.
+
+\subsection{Image Search}
+
+Image search involves retrieving visually or semantically similar images given a query image. Traditional approaches, relying on exact pixel comparisons or handcrafted features, often fail to capture higher-level semantic content and do not scale efficiently to large datasets. Representing images as high-dimensional embeddings allows the use of nearest neighbor techniques to measure similarity in a feature space that encodes semantic relationships. Vector databases facilitate efficient storage, indexing, and retrieval of these embeddings, enabling nearest neighbor search even over large-scale datasets. This makes the approach a practical and scalable solution for content-based image retrieval tasks.
+
+\paragraph{Dataset and Embeddings}
+
+Demonstrations were conducted on a subset of the CIFAR-10 dataset, consisting of 60,000 color images of size $32 \times 32$ pixels, evenly distributed across ten object classes. Each image in the subset is labeled according to its class (\texttt{labels}). Feature embeddings were extracted using a pretrained ResNet-18 model, yielding high-dimensional representations suitable for nearest neighbor search (\texttt{embeddings}). Detailed dataset preparation and embeddings extraction steps are provided in Appendix~\ref{app:dataset-and-embeddings}.
+
+\paragraph{Demonstrations}
+
+The examples provided below illustrate the use of vector management systems and tools for nearest neighbor search on image embeddings. The demonstration uses pre-extracted variables including the embedding dimension (\texttt{d}), the query vector (\texttt{query\_vector}, corresponding to the first image in the subset), and the number of nearest neighbors (\texttt{k}, set to 10). The label of the query image is 6, which occurs in 207 images within the subset. Definitions of these variables are provided in Appendix~\ref{app:variables-extraction}. Below each code example, the output shows the $k$ returned IDs and their corresponding labels.
+
+\subsubsection{FAISS HNSW}
+
+The first example demonstrates the use of the FAISS library, employing the HNSW algorithm for approximate nearest neighbor search. The code performs $k$-NN search using pre-extracted embeddings, as shown in Listing~\ref{lst:faiss-hnsw}.
+
+\input{chapters/practice/practical-applications/codes/faiss-hnsw.tex}
+{\small
+\begin{verbatim}
+Top-k indices: [0, 1002, 1484, 228, 1393, 314, 1635, 1596, 27, 1202]
+Top-k labels: [6, 3, 6, 6, 6, 3, 6, 6, 5, 3]
+\end{verbatim}
+}
+
+\subsubsection{Milvus HNSW}
+
+The second example demonstrates the use of Milvus, a cloud-based vector database. Connection setup details are provided in Appendix~\ref{app:milvus-connection}. The code performs $k$-NN search using pre-extracted embeddings, as shown in Listing~\ref{lst:milvus-hnsw}.
+
+\input{chapters/practice/practical-applications/codes/milvus-hnsw.tex}
+{\small
+\begin{verbatim}
+Top-k ids: [0, 1002, 1484, 228, 1393, 314, 1635, 1596, 27, 865]
+Top-k labels: [6, 3, 6, 6, 6, 3, 6, 6, 5, 3]
+\end{verbatim}
+}
+
+\subsubsection{Weaviate HNSW}
+
+The third example demonstrates the use of Weaviate, a cloud-based vector database. Connection setup details are provided in Appendix~\ref{app:weaviate-connection}. The code performs $k$-NN search using pre-extracted embeddings, as shown in Listing~\ref{lst:weaviate-hnsw}.
+
+\input{chapters/practice/practical-applications/codes/weaviate-hnsw.tex}
+{\small
+\begin{verbatim}
+Top-k ids: [0, 1819, 1635, 314, 1002, 1628, 265, 1246, 1646, 1393]
+Top-k labels: [6, 6, 6, 3, 3, 6, 9, 6, 6, 6]
+\end{verbatim}
+}
+
+\newpage
+
+\subsection{Recommendation Systems}
+
+Recommendation systems aim to predict user preferences and suggest relevant items, such as products, movies, or songs. High-dimensional embeddings can represent both users and items in a shared feature space, capturing latent characteristics and similarities. Vector databases enable efficient nearest neighbor search to identify items most similar to a given user profile or query item, supporting real-time personalized recommendations even for very large catalogs. Approximate nearest neighbor search allows scaling to millions of items without sacrificing responsiveness.
+
+\subsection{Document Retrieval and Analysis}
+
+Document retrieval and analysis involve searching, clustering, and organizing large collections of unstructured text data. Embeddings derived from language models capture semantic relationships between documents beyond keyword matching. Storing these embeddings in vector databases allows for fast similarity search, enabling tasks such as semantic search, document clustering, and question-answering over large corpora. This approach provides both efficiency and scalability, crucial for handling modern text-intensive applications.

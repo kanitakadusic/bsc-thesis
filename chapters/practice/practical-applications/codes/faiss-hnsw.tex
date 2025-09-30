@@ -1,0 +1,17 @@
+\begin{lstlisting}[
+    caption={$k$-NN search using FAISS HNSW approach.},
+    label={lst:faiss-hnsw}
+]
+import numpy as np
+import faiss
+
+index_hnsw = faiss.IndexHNSWFlat(d, 32)  # M=32
+index_hnsw.hnsw.efConstruction = 40
+index_hnsw.add(embeddings)
+
+index_hnsw.hnsw.efSearch = 50
+distances_hnsw, indices_hnsw = index_hnsw.search(query_vector.reshape(1, -1), k)
+
+print("Top-k indices:", indices_hnsw[0].tolist())
+print("Top-k labels:", labels[indices_hnsw[0]].tolist())
+\end{lstlisting}

@@ -1,0 +1,37 @@
+\section{Systems and Tools}
+
+Vector databases provide specialized infrastructure for managing high-dimensional embeddings, enabling efficient similarity search over large collections of unstructured data. They are optimized for real-time queries, large-scale vector operations, and integrated index management, making them a core component in AI-driven applications.
+
+\paragraph{Vector Databases, Libraries, and Plugins}
+
+Vector search libraries, such as FAISS, are designed to be integrated into the application under development. They provide high-performance ANN search, but scalability becomes an issue as dataset sizes grow.
+Traditional relational databases or search systems, such as Elasticsearch, often include built-in vector search plugins. However, these are enhancements on top of existing architectures and are therefore limited in functionality and performance.
+Dedicated vector databases, such as Milvus or Weaviate, are purpose-built to deliver scalable, real-time responses and comprehensive APIs for both vector and structured data management.
+
+\subsection{FAISS}
+
+FAISS (Facebook AI Similarity Search) is an open-source\footnote{\url{https://github.com/facebookresearch/faiss}} library for ANN search. Its core is implemented in C++ with no external dependencies and is accompanied by a Python interface, allowing it to be used both in standalone scripts and as a building block for larger systems.
+
+FAISS provides multiple indexing techniques, which may include preprocessing, compression, and non-exhaustive search strategies - specifically, inverted file and graph-based methods, such as HNSW.
+
+At its core, FAISS maintains an index to which database vectors are incrementally added. Queries are submitted as vectors, and the library returns nearest neighbors according to a chosen distance metric, most commonly the Euclidean distance. Variants include returning $k$ nearest neighbors, vectors within a specified radius, batch queries, and execution on CPUs or GPUs.
+
+It is important to note that FAISS does not perform feature extraction, manage concurrency, or provide database services such as sharding, transaction management, or query optimization. Its scope is focused on the algorithmic implementation of ANN search \cite{faiss-2024, faiss-2019}.
+
+\subsection{Milvus}
+
+Milvus is an open-source\footnote{\url{https://github.com/milvus-io/milvus}} vector database. Written in Go and C++, Milvus leverages CPU and GPU acceleration to enhance vector search performance. Kubernetes-native architecture allows horizontal scaling, real-time streaming updates, and deployment in both multi-node clusters and standalone mode.
+
+It stores vectors alongside scalar metadata and enables efficient $k$-NN queries, hybrid search, and metadata filtering. The system supports multiple vector index types, including HNSW, IVF, FLAT, SCANN, and DiskANN, with quantization-based variations.
+
+Milvus also supports sparse vectors for full-text search and hybrid retrieval, combining dense and sparse embeddings within the same collection. Data security is enforced through mandatory authentication, TLS encryption, and role-based access control.
+
+The Milvus ecosystem integrates with various AI development frameworks and provides utilities for embedding transformation, search reranking, administration, monitoring, and data pipeline integration \cite{milvus-2021, milvus-2022}.
+
+\subsection{Weaviate}
+
+Weaviate is an open-source\footnote{\url{https://github.com/weaviate/weaviate}}, cloud-native vector database that stores both objects and vectors, enabling semantic search at scale. It combines vector similarity search with keyword filtering, retrieval-augmented generation (RAG), and reranking in a single query interface, supporting applications such as RAG systems, semantic and image search, recommendation engines, chatbots, and content classification.
+
+Weaviate allows vectors to be either automatically generated at import using integrated models (e.g., OpenAI, Cohere, HuggingFace) or directly imported as pre-computed embeddings. Its production-ready features include multi-tenancy, replication, fine-grained role-based access control (RBAC), and horizontal scaling.
+
+The system supports advanced hybrid search by combining semantic, keyword (BM25), and image search, and integrates generative RAG and reranking capabilities. Performance optimizations, such as vector compression and multi-vector encoding, reduce memory usage while maintaining fast, millisecond-scale retrieval over billions of vectors \cite{weaviate-weaviate}.

@@ -1,0 +1,21 @@
+\begin{algorithm}[H]
+    \caption{K-NN-SEARCH \cite{Malkov-Yashunin-2016}}
+    \label{alg:hnsw-5}
+    \begin{algorithmic}[1]
+        \Require multilayer graph $hnsw$, query element $q$, number of nearest neighbors $k$, size of dynamic candidate list $ef$
+        \Ensure $k$ nearest neighbors to $q$
+        
+        \State $W \gets \emptyset$ \Comment{set of current nearest elements}
+        \State $ep \gets$ get entry point of $hnsw$
+        \State $L \gets$ level of $ep$ \Comment{top layer in $hnsw$}
+        
+        \For{$l_c \gets L \dots 1$}
+            \State $W \gets \text{SEARCH-LAYER}(q, ep, ef=1, l_c)$
+            \State $ep \gets$ get nearest element from $W$ to $q$
+        \EndFor
+        
+        \State $W \gets \text{SEARCH-LAYER}(q, ep, ef, l_c=0)$
+        \State \Return $k$ nearest elements from $W$ to $q$
+        
+    \end{algorithmic}
+\end{algorithm}

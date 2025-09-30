@@ -1,0 +1,40 @@
+\begin{algorithm}[H]
+    \caption{SELECT-NEIGHBORS-HEURISTIC \cite{Malkov-Yashunin-2016}}
+    \label{alg:hnsw-4}
+    \begin{algorithmic}[1]
+        \Require base element $q$, candidate elements $C$, number of neighbors to return $M$, layer number $l_c$, flag indicating whether or not to extend candidate list $extendCandidates$, flag indicating whether or not to add discarded elements $keepPrunedConnections$
+        \Ensure $M$ elements selected by the heuristic
+
+        \State $R \gets \emptyset$
+        \State $W \gets C$ \Comment{queue for candidates}
+
+        \If{$extendCandidates$} \Comment{extend candidates by their neighbors}
+            \For{each $e \in C$}
+                \For{each $e_{adj} \in$ $neighborhood(e)$ at layer $l_c$}
+                    \If{$e_{adj} \notin W$}
+                        \State $W \gets W \cup \{e_{adj}\}$
+                    \EndIf
+                \EndFor
+            \EndFor
+        \EndIf
+
+        \State $W_d \gets \emptyset$ \Comment{queue for discarded candidates}
+
+        \While{$|W| > 0$ \textbf{and} $|R| < M$}
+            \State $e \gets$ extract nearest element from $W$ to $q$
+            \If{$e$ is closer to $q$ compared to any element from $R$}
+                \State $R \gets R \cup \{e\}$
+            \Else
+                \State $W_d \gets W_d \cup \{e\}$
+            \EndIf
+        \EndWhile
+
+        \If{$keepPrunedConnections$} \Comment{add some of discarded connections from $W_d$}
+            \While{$|W_d| > 0$ \textbf{and} $|R| < M$}
+                \State $R \gets R \cup \{$extract nearest element from $W_d$ to $q\}$
+            \EndWhile
+        \EndIf
+
+        \State \Return $R$
+    \end{algorithmic}
+\end{algorithm}

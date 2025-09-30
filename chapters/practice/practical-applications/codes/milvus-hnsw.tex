@@ -1,0 +1,42 @@
+\begin{lstlisting}[
+    caption={$k$-NN search using Milvus HNSW approach.},
+    label={lst:milvus-hnsw}
+]
+import numpy as np
+from pymilvus import FieldSchema, DataType, CollectionSchema, Collection, list_collections
+
+collection_name = "CIFAR10"
+
+# Drop the collection if it already exists to ensure a clean start
+if collection_name in list_collections():
+    Collection(collection_name).drop()
+
+# Define and create the collection schema
+# 'index' serves as the primary key, 'embedding' stores the image vectors
+collection = Collection(
+    collection_name,
+    CollectionSchema([
+        FieldSchema(name="index", dtype=DataType.INT64, is_primary=True),
+        FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=d)
+    ])
+)
+
+# Insert embeddings with their indices and flush to persist data
+collection.insert([np.arange(len(embeddings)), embeddings])
+collection.flush()
+
+# Create an HNSW index on the embedding field
+index_params = {"index_type": "HNSW", "metric_type": "L2", "params": {"M": 32, "efConstruction": 40}}
+collection.create_index(field_name="embedding", index_params=index_params)
+
+# Load the collection into memory to enable search
+collection.load()
+
+# Define search parameters and perform top-k nearest neighbor search
+search_params = {"metric_type": "L2", "params": {"ef": 50}}
+results = collection.search([query_vector], "embedding", search_params, limit=k)
+
+top_ids = [res.index for res in results[0]]
+print("Top-k ids:", top_ids)
+print("Top-k labels:", labels[top_ids].tolist())
+\end{lstlisting}

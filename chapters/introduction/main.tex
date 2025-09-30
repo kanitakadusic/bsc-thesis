@@ -1,0 +1,68 @@
+\chapter{Introduction}
+
+\section{Background}
+
+The study of vector databases and approximate nearest neighbor search has gained significant attention in recent years due to the rapid growth of unstructured, high-dimensional data in domains such as machine learning, computer vision, and natural language processing. Traditional relational databases and exact search methods often fail to provide efficient retrieval mechanisms in these contexts. This is primarily due to the \textit{curse of dimensionality}, which makes high-dimensional nearest neighbor search computationally expensive and impractical \cite{Ukey-Yang-Li-Zhang-Hu-Zhang-2023}.
+
+Vector representations, referred to as embeddings, have become a central concept in enabling the effective processing and analysis of unstructured data. By mapping complex objects, such as images, text, or audio, into fixed-length numerical vectors, embeddings allow the application of geometric and algebraic techniques for similarity measurement and data retrieval. The proliferation of embeddings has, in turn, spurred the development of specialized algorithms and data structures to facilitate efficient similarity search, including hash-based, tree-based, and graph-based methods \cite{Grohe-2020}.
+
+Vector databases, as platforms designed to store, index, and query embeddings at scale, represent a practical response to these challenges. They integrate algorithmic solutions with software infrastructure to provide high-performance retrieval while maintaining acceptable accuracy levels. Prominent systems, such as FAISS, Milvus, and Weaviate, exemplify the current state-of-the-art in vector data management, offering a range of functionalities from standalone libraries to fully managed database systems \cite{faiss-2024, milvus-2021, weaviate-weaviate}.
+
+Given the increasing importance of similarity search across research and industry applications, including recommendation systems, image and video retrieval, chatbots, and document analysis, the exploration of both the theoretical and practical aspects of vector databases is timely and highly relevant. This thesis therefore investigates the foundational principles, representative algorithms, and practical tools that enable effective handling of high-dimensional vector data.
+
+\newpage
+
+\section{Problem Statement}
+
+The increasing volume of unstructured data in modern information systems poses a significant challenge for efficient retrieval and analysis. Traditional relational databases and exact search methods struggle to scale when handling high-dimensional data representations, such as embeddings used in machine learning, computer vision, and natural language processing. As the dimensionality of the data grows, exact nearest neighbor search becomes computationally expensive and impractical.
+
+Approximate nearest neighbor methods and vector database systems have emerged as practical solutions to address these challenges, offering efficient retrieval while maintaining acceptable levels of accuracy. Despite their growing adoption, a comprehensive understanding of the algorithms underlying these systems, as well as the practical considerations for their usage, is still required. This thesis addresses this gap by investigating both the theoretical foundations and the practical applications of vector databases, focusing on the principles, algorithms, and tools that enable efficient similarity search in high-dimensional spaces.
+
+\section{Research Objectives}
+
+The primary objective of this thesis is to investigate the theoretical foundations and practical applications of vector databases, focusing specifically on similarity search in high-dimensional vector spaces. The research aims to:
+
+\begin{itemize}
+    \item Provide an overview of vector data representation and the underlying principles for efficient manipulation and querying of unstructured data.
+    \item Examine the fundamental algorithms for approximate nearest neighbor search and analyze their characteristics, advantages, and limitations.
+    \item Explore prominent tools and systems for managing vector data, highlighting their functionalities and demonstrating their practical usage in real-world scenarios.
+    \item Illustrate the application of vector databases through a practical example, thereby bridging the gap between theoretical concepts and their implementation.
+\end{itemize}
+
+\section{Methodology Overview}
+
+The methodology of this thesis began with a preliminary investigation of vector databases to gain a general understanding of their significance, prevalence, and practical applications. HNSW, LSH, and Annoy were identified as widely cited and representative of different classes of approximate nearest neighbor methods. These algorithms were studied in depth through scientific literature as well as their official open-source implementations, to clarify their operational characteristics.
+
+Insights gained from this investigation informed the development of the theoretical background, providing a structured overview of vector data representation and nearest neighbor search concepts.
+
+The practical part of the study involved examining popular vector management systems and tools, namely FAISS, Milvus, and Weaviate. Embeddings were generated from a selected dataset to demonstrate the use of these systems for similarity search tasks in a controlled, illustrative setting.
+
+\section{Structure of the Thesis}
+
+The thesis is organized into four main chapters:
+
+\begin{enumerate}
+    \item \textit{Introduction}
+    \item \textit{Theoretical Background}
+    \item \textit{Selected Algorithms}
+    \item \textit{Vector Databases in Practice}
+\end{enumerate}
+
+\paragraph{\textit{Introduction}}
+
+The first chapter outlines the background, problem statement, research objectives, methodology overview, and the structure of the thesis. These sections provide the necessary context and motivation for the work.
+
+\paragraph{\textit{Theoretical Background}}
+
+The second chapter introduces the concept of unstructured data and highlights the importance of appropriate representations in facilitating their analysis and manipulation. It then defines the nearest neighbor (NN) search problem, beginning with the exact NN formulation and the challenges it poses in high-dimensional spaces, which motivates the introduction of approximate NN methods and the discussion of the efficiency-accuracy trade-offs they offer.
+A foundation and motivation are thus established for studying approximate NN algorithms, some of which are examined in the following chapter.
+
+\paragraph{\textit{Selected Algorithms}}
+
+The third chapter examines selected approximate nearest neighbor algorithms in detail. It discusses LSH as a representative hash-based method, Annoy as a tree-based method, and HNSW as a graph-based method, thereby providing insight into each of the approaches.
+This provides an understanding of the inner workings of vector databases, which are further explored in the following chapter.
+
+\paragraph{\textit{Vector Databases in Practice}}
+
+The fourth chapter presents the most prominent systems (Milvus, Weaviate) and tools (FAISS) for working with embeddings, highlighting practical use cases and illustrating their application through a demonstration example.
+This effectively completes the thesis by linking theoretical concepts with practical implementation.

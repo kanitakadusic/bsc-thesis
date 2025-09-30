@@ -1,0 +1,36 @@
+\begin{algorithm}[H]
+    \caption{SEARCH-LAYER \cite{Malkov-Yashunin-2016}}
+    \label{alg:hnsw-2}
+    \begin{algorithmic}[1]
+        \Require query element $q$, entry points $ep$, number of nearest neighbors $ef$, layer number $l_c$
+        \Ensure $ef$ nearest neighbors to $q$
+        
+        \State $v \gets ep$ \Comment{set of visited elements}
+        \State $C \gets ep$ \Comment{set of candidates}
+        \State $W \gets ep$ \Comment{dynamic list of found nearest neighbors}
+        
+        \While{$|C| > 0$}
+            \State $c \gets$ extract nearest element from $C$ to $q$
+            \State $f \gets$ get furthest neighbor from $W$ to $q$
+            \If{$distance(c, q) > distance(f, q)$}
+                \State \textbf{break} \Comment{all elements in $W$ evaluated}
+            \EndIf
+            
+            \For{each $e \in$ $neighborhood(c)$ at layer $l_c$} \Comment{update $C$ and $W$}
+                \If{$e \notin v$}
+                    \State $v \gets v \cup \{e\}$
+                    \State $f \gets$ get furthest neighbor from $W$ to $q$
+                    \If{$distance(e, q) < distance(f, q)$ \textbf{or} $|W| < ef$}
+                        \State $C \gets C \cup \{e\}$
+                        \State $W \gets W \cup \{e\}$
+                        \If{$|W| > ef$}
+                            \State remove furthest neighbor from $W$ to $q$
+                        \EndIf
+                    \EndIf
+                \EndIf
+            \EndFor
+        \EndWhile
+        
+        \State \Return $W$
+    \end{algorithmic}
+\end{algorithm}
